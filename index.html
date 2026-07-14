@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VANTA · Server Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0b0b14;
+            color: #f0eef8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #13131f;
+            padding: 40px 32px;
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            border: 1px solid #2a1f45;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(139, 92, 246, 0.05);
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #a78bfa;
+            margin-bottom: 6px;
+        }
+        .sub {
+            color: #6b6288;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .link-item {
+            background: #0f0f1a;
+            border: 1px solid #2a1f45;
+            border-radius: 10px;
+            padding: 14px 18px;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #b8b0d0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .link-item:hover {
+            border-color: #8b5cf6;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .link-item .emoji {
+            font-size: 20px;
+        }
+        .link-item .name {
+            font-weight: 500;
+            flex: 1;
+        }
+        .link-item .arrow {
+            color: #6b6288;
+            font-size: 14px;
+        }
+        .back {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #2a1f45;
+            text-align: center;
+        }
+        .back a {
+            color: #6b6288;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .back a:hover {
+            color: #a78bfa;
+        }
+        .error {
+            color: #ef4444;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎮 Choose a Server</h1>
+        <p class="sub">Select a game to see available Discord servers</p>
+        <div class="link-list" id="linkList"></div>
+        <div class="back">
+            <a href="#" onclick="history.back(); return false;">← Go back</a>
+        </div>
+    </div>
+
+    <script>
+        // ─── SERVER DATA ───────────────────────────────────────────────────────
+        const servers = {
+            adoptme: [
+                { name: 'Official Adopt Me', link: 'https://discord.com/invite/adoptmeroblox' },
+                { name: 'Adopt Me Trading Hub', link: 'https://discord.com/invite/adoptmetrading' },
+                { name: 'Adopt Me Community', link: 'https://discord.com/invite/adoptmecommunity' },
+                { name: 'Adopt Me Values', link: 'https://discord.com/invite/adoptmevalues' },
+                { name: 'Adopt Me Giveaways', link: 'https://discord.com/invite/adoptmegiveaways' }
+            ],
+            mm2: [
+                { name: 'MM2 Trading', link: 'https://discord.gg/mm2trading' },
+                { name: 'MM2 Values', link: 'https://discord.gg/mm2values' },
+                { name: 'MM2 Empire', link: 'https://discord.gg/mm2empire' }
+            ],
+            bloxfruits: [
+                { name: 'Official Blox Fruits', link: 'https://discord.com/invite/bloxfruits' },
+                { name: 'Blox Fruits Trading', link: 'https://discord.com/invite/bfcs' },
+                { name: 'Blox Fruits Crew', link: 'https://discord.com/invite/bloxfruitscrew' }
+            ],
+            ps99: [
+                { name: 'Official PS99 (Big Games)', link: 'https://discord.com/invite/biggames' },
+                { name: 'PS99 Trading', link: 'https://discord.com/invite/ps99trading' },
+                { name: 'PS99 ScriptX', link: 'https://discordbotlist.com/servers/ps99-scriptx/join' }
+            ],
+            fisch: [
+                { name: 'Official Fisch', link: 'https://discord.com/invite/fischs' },
+                { name: 'Fisch Trading', link: 'https://discord.com/invite/fischtrading' },
+                { name: 'Fisch Community', link: 'https://discord.com/invite/fisch' }
+            ],
+            stealabrainrot: [
+                { name: 'Official SAB', link: 'https://discord.com/invite/stealabrianrot' },
+                { name: 'SAB Trading', link: 'https://discord.com/invite/stealabrainrott' },
+                { name: 'SAB Community', link: 'https://discord.com/servers/steal-a-brainrot-trading-admin-abuse-notifier-1369618777368690729' }
+            ],
+            growagarden: [
+                { name: 'Official Grow a Garden', link: 'https://discord.com/invite/growagarden' },
+                { name: 'Grow a Garden Trading', link: 'https://discord.com/invite/stealabrainrott' },
+                { name: 'Grow a Garden 2', link: 'https://discord.com/invite/growagarden2' }
+            ],
+            rivals: [
+                { name: 'Official Rivals', link: 'https://discord.com/invite/rivals' },
+                { name: 'Marvel Rivals', link: 'https://discord.com/invite/marvelrivals' },
+                { name: 'Rivals Farming', link: 'https://discord.com/servers/lord-farming-by-procarry-1337849959789105162' }
+            ],
+            plsdonate: [
+                { name: 'Official Pls Donate', link: 'https://discord.com/invite/plsdonate' },
+                { name: 'Pls Donate News', link: 'https://discord.com/servers/pls-donate-news--1027373133113610330' },
+                { name: 'Pls Donate Trading', link: 'https://discordbotlist.com/servers/the-donation-hub-983494809278889985/upvote' }
+            ],
+            towerdefense: [
+                { name: 'Official Terraria TD', link: 'https://discord.com/invite/terrariatowerdefense' },
+                { name: 'Tower Defense Tides', link: 'https://discord.com/servers/tides-1390788122295664782' },
+                { name: 'Tower Defense Community', link: 'https://discord.com/invite/sbtd' }
+            ],
+            dahood: [
+                { name: 'Official Da Hood', link: 'https://discord.com/invite/dahood' },
+                { name: 'Da Hood Trading', link: 'https://discord.gg/dahoodtrading' },
+                { name: 'Da Hood EU', link: 'https://discord.com/servers/da-hood-eu-1217180054287810714' }
+            ],
+            jailbreak: [
+                { name: 'Official Jailbreak', link: 'https://discord.com/invite/jailbreak' },
+                { name: 'Jailbreak Trading', link: 'https://discord.gg/jailbreak' },
+                { name: 'Jailbreak Community', link: 'https://discord.com/servers/jailbreak-hybrid-24-7-trades-stock-updates-1277156827678638111' }
+            ],
+            bladeball: [
+                { name: 'Official Bladeball', link: 'https://discord.com/invite/bladeball' },
+                { name: 'Bladeball Trading', link: 'https://discord.gg/bladeball' },
+                { name: 'Bladeball Community', link: 'https://discord.com/servers/blade-ball-1141515589924429869' }
+            ],
+            deepwoken: [
+                { name: 'Official Deepwoken', link: 'https://discord.com/invite/deepwoken' },
+                { name: 'Deepwoken Trading', link: 'https://discord.com/invite/deepwoken-trading-hub-969040338373206026' },
+                { name: 'Deepwoken Community', link: 'https://discordbotlist.com/servers/deepwoken/join' }
+            ]
+        };
+
+        // ─── GET GAME FROM URL ──────────────────────────────────────────────
+        const params = new URLSearchParams(window.location.search);
+        const game = params.get('game');
+
+        const list = document.getElementById('linkList');
+
+        // ─── RENDER ──────────────────────────────────────────────────────────
+        if (game && servers[game]) {
+            servers[game].forEach(s => {
+                const a = document.createElement('a');
+                a.className = 'link-item';
+                a.href = s.link;
+                a.target = '_blank';
+                a.innerHTML = `
+                    <span class="emoji">🔹</span>
+                    <span class="name">${s.name}</span>
+                    <span class="arrow">→</span>
+                `;
+                list.appendChild(a);
+            });
+        } else {
+            list.innerHTML = `
+                <div class="error">
+                    <p>⚠️ No servers found for this game.</p>
+                    <p style="font-size:14px;color:#6b6288;margin-top:8px;">Please go back and try again.</p>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>
