@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VANTA · Server Links</title>
+    <title>VANTA · Discord Servers</title>
     <style>
         * {
             margin: 0;
@@ -14,79 +14,130 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #0b0b14;
             color: #f0eef8;
+            min-height: 100vh;
+            padding: 30px 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
         }
         .container {
-            background: #13131f;
-            padding: 40px 32px;
-            border-radius: 16px;
-            max-width: 520px;
+            max-width: 650px;
             width: 100%;
+            background: #13131f;
+            border-radius: 16px;
+            padding: 35px 28px;
             border: 1px solid #2a1f45;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(139, 92, 246, 0.05);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            align-self: flex-start;
         }
         h1 {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 700;
             color: #a78bfa;
-            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .sub {
             color: #6b6288;
             font-size: 14px;
-            margin-bottom: 24px;
+            margin-top: 4px;
+            margin-bottom: 25px;
         }
-        .link-list {
+        .game-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            margin-bottom: 25px;
         }
-        .link-item {
+        .game-btn {
             background: #0f0f1a;
             border: 1px solid #2a1f45;
             border-radius: 10px;
             padding: 14px 18px;
+            color: #b8b0d0;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .game-btn:hover {
+            border-color: #8b5cf6;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .game-btn .arrow {
+            color: #6b6288;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .game-btn.active .arrow {
+            transform: rotate(90deg);
+            color: #a78bfa;
+        }
+        .game-btn.active {
+            border-color: #8b5cf6;
+            background: #1a1a2e;
+        }
+        .servers-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            padding-left: 6px;
+            border-left: 2px solid #2a1f45;
+        }
+        .servers-container.open {
+            display: flex;
+        }
+        .server-link {
+            background: #0b0b14;
+            border: 1px solid #1f1f30;
+            border-radius: 8px;
+            padding: 12px 16px;
             text-decoration: none;
             color: #b8b0d0;
             display: flex;
             align-items: center;
             gap: 12px;
+            transition: all 0.3s;
         }
-        .link-item:hover {
+        .server-link:hover {
             border-color: #8b5cf6;
-            background: #1a1a2e;
+            background: #14142a;
             color: #fff;
         }
-        .link-item .emoji {
-            font-size: 20px;
+        .server-link .emoji {
+            font-size: 18px;
         }
-        .link-item .name {
-            font-weight: 500;
+        .server-link .name {
             flex: 1;
+            font-weight: 500;
         }
-        .link-item .arrow {
+        .server-link .badge {
+            font-size: 11px;
             color: #6b6288;
-            font-size: 14px;
+            background: #1a1a2a;
+            padding: 2px 10px;
+            border-radius: 20px;
         }
-        .back {
-            margin-top: 24px;
-            padding-top: 20px;
+        .server-link .join {
+            color: #6b6288;
+            font-size: 13px;
+        }
+        .footer {
+            margin-top: 25px;
+            padding-top: 18px;
             border-top: 1px solid #2a1f45;
             text-align: center;
-        }
-        .back a {
+            font-size: 13px;
             color: #6b6288;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
         }
-        .back a:hover {
+        .footer span {
             color: #a78bfa;
         }
     </style>
@@ -94,117 +145,197 @@
 <body>
 
     <div class="container">
-        <h1>🎮 Choose a Server</h1>
-        <p class="sub">Select a game to see available Discord servers</p>
-        <div class="link-list" id="linkList"></div>
-        <div class="back">
-            <a href="#" onclick="history.back(); return false;">← Go back</a>
+        <h1>🎮 VANTA Servers</h1>
+        <p class="sub">Click a game to see all active Discord servers</p>
+
+        <div class="game-grid" id="gameGrid"></div>
+        <div id="serversContainer" class="servers-container"></div>
+
+        <div class="footer">
+            <span>✦</span> All servers are active & verified <span>✦</span>
         </div>
     </div>
 
     <script>
-        // ─── SERVER DATA ───────────────────────────────────────────────────────
-        const servers = {
-            adoptme: [
-                { name: 'Official Adopt Me', link: 'https://discord.com/invite/adoptmeroblox' },
-                { name: 'Adopt Me Trading Hub', link: 'https://discord.com/invite/adoptmetrading' },
-                { name: 'Adopt Me Values', link: 'https://discord.com/invite/adoptmevalues' }
-            ],
-            mm2: [
-                { name: 'MM2 Trading', link: 'https://discord.gg/mm2trading' },
-                { name: 'MM2 Values', link: 'https://discord.gg/mm2values' },
-                { name: 'MM2 Empire', link: 'https://discord.gg/mm2empire' }
-            ],
-            bloxfruits: [
-                { name: 'Official Blox Fruits', link: 'https://discord.com/invite/bloxfruits' },
-                { name: 'Blox Fruits Trading', link: 'https://discord.com/invite/bfcs' },
-                { name: 'Blox Fruits Crew', link: 'https://discord.com/invite/bloxfruitscrew' }
-            ],
-            ps99: [
-                { name: 'Official PS99 (Big Games)', link: 'https://discord.com/invite/biggames' },
-                { name: 'PS99 Trading', link: 'https://discord.com/invite/ps99trading' },
-                { name: 'PS99 ScriptX', link: 'https://discordbotlist.com/servers/ps99-scriptx/join' }
-            ],
-            fisch: [
-                { name: 'Official Fisch', link: 'https://discord.com/invite/fischs' },
-                { name: 'Fisch Trading', link: 'https://discord.com/invite/fischtrading' },
-                { name: 'Fisch Community', link: 'https://discord.com/invite/fisch' }
-            ],
-            stealabrainrot: [
-                { name: 'Official SAB', link: 'https://discord.com/invite/stealabrianrot' },
-                { name: 'SAB Trading', link: 'https://discord.com/invite/stealabrainrott' },
-                { name: 'SAB Community', link: 'https://discord.com/servers/steal-a-brainrot-trading-admin-abuse-notifier-1369618777368690729' }
-            ],
-            growagarden: [
-                { name: 'Official Grow a Garden', link: 'https://discord.com/invite/growagarden' },
-                { name: 'Grow a Garden Trading', link: 'https://discord.com/invite/stealabrainrott' },
-                { name: 'Grow a Garden 2', link: 'https://discord.com/invite/growagarden2' }
-            ],
-            rivals: [
-                { name: 'Official Rivals', link: 'https://discord.com/invite/rivals' },
-                { name: 'Marvel Rivals', link: 'https://discord.com/invite/marvelrivals' },
-                { name: 'Rivals Farming', link: 'https://discord.com/servers/lord-farming-by-procarry-1337849959789105162' }
-            ],
-            plsdonate: [
-                { name: 'Official Pls Donate', link: 'https://discord.com/invite/plsdonate' },
-                { name: 'Pls Donate News', link: 'https://discord.com/servers/pls-donate-news--1027373133113610330' },
-                { name: 'Pls Donate Trading', link: 'https://discordbotlist.com/servers/the-donation-hub-983494809278889985/upvote' }
-            ],
-            towerdefense: [
-                { name: 'Official Terraria TD', link: 'https://discord.com/invite/terrariatowerdefense' },
-                { name: 'Tower Defense Tides', link: 'https://discord.com/servers/tides-1390788122295664782' },
-                { name: 'Tower Defense Community', link: 'https://discord.com/invite/sbtd' }
-            ],
-            dahood: [
-                { name: 'Official Da Hood', link: 'https://discord.com/invite/dahood' },
-                { name: 'Da Hood Trading', link: 'https://discord.gg/dahoodtrading' },
-                { name: 'Da Hood EU', link: 'https://discord.com/servers/da-hood-eu-1217180054287810714' }
-            ],
-            jailbreak: [
-                { name: 'Official Jailbreak', link: 'https://discord.com/invite/jailbreak' },
-                { name: 'Jailbreak Trading', link: 'https://discord.gg/jailbreak' },
-                { name: 'Jailbreak Community', link: 'https://discord.com/servers/jailbreak-hybrid-24-7-trades-stock-updates-1277156827678638111' }
-            ],
-            bladeball: [
-                { name: 'Official Bladeball', link: 'https://discord.com/invite/bladeball' },
-                { name: 'Bladeball Trading', link: 'https://discord.gg/bladeball' },
-                { name: 'Bladeball Community', link: 'https://discord.com/servers/blade-ball-1141515589924429869' }
-            ],
-            deepwoken: [
-                { name: 'Official Deepwoken', link: 'https://discord.com/invite/deepwoken' },
-                { name: 'Deepwoken Trading', link: 'https://discord.com/invite/deepwoken-trading-hub-969040338373206026' },
-                { name: 'Deepwoken Community', link: 'https://discordbotlist.com/servers/deepwoken/join' }
-            ]
+        // ─── ALL GAMES & SERVERS ──────────────────────────────────────────────
+        const data = {
+            adoptme: {
+                label: 'Adopt Me',
+                servers: [
+                    'Official Adopt Me: https://discord.com/invite/adoptmeroblox',
+                    'Adopt Me Trading Hub: https://discord.com/invite/adoptmetrading',
+                    'Adopt Me Values: https://discord.com/invite/adoptmevalues',
+                    'Adopt Me Community: https://discord.com/invite/adoptmecommunity',
+                    'Adopt Me Giveaways: https://discord.com/invite/adoptmegiveaways'
+                ]
+            },
+            mm2: {
+                label: 'Murder Mystery 2',
+                servers: [
+                    'MM2 Trading: https://discord.gg/mm2trading',
+                    'MM2 Values: https://discord.gg/mm2values',
+                    'MM2 Empire: https://discord.gg/mm2empire',
+                    'MM2 Community: https://discord.com/invite/mm2'
+                ]
+            },
+            bloxfruits: {
+                label: 'Blox Fruits',
+                servers: [
+                    'Official Blox Fruits: https://discord.com/invite/bloxfruits',
+                    'Blox Fruits Trading: https://discord.com/invite/bfcs',
+                    'Blox Fruits Crew: https://discord.com/invite/bloxfruitscrew'
+                ]
+            },
+            ps99: {
+                label: 'Pet Simulator 99',
+                servers: [
+                    'Official PS99 (Big Games): https://discord.com/invite/biggames',
+                    'PS99 Trading: https://discord.com/invite/ps99trading',
+                    'PS99 ScriptX: https://discordbotlist.com/servers/ps99-scriptx/join'
+                ]
+            },
+            fisch: {
+                label: 'Fisch',
+                servers: [
+                    'Official Fisch: https://discord.com/invite/fischs',
+                    'Fisch Trading: https://discord.com/invite/fischtrading',
+                    'Fisch Community: https://discord.com/invite/fisch'
+                ]
+            },
+            stealabrainrot: {
+                label: 'Steal a Brainrot',
+                servers: [
+                    'Official SAB: https://discord.com/invite/stealabrianrot',
+                    'SAB Trading: https://discord.com/invite/stealabrainrott',
+                    'SAB Community: https://discord.com/servers/steal-a-brainrot-trading-admin-abuse-notifier-1369618777368690729'
+                ]
+            },
+            growagarden: {
+                label: 'Grow a Garden',
+                servers: [
+                    'Official Grow a Garden: https://discord.com/invite/growagarden',
+                    'Grow a Garden Trading: https://discord.com/invite/stealabrainrott',
+                    'Grow a Garden 2: https://discord.com/invite/growagarden2'
+                ]
+            },
+            rivals: {
+                label: 'Rivals',
+                servers: [
+                    'Official Rivals: https://discord.com/invite/rivals',
+                    'Marvel Rivals: https://discord.com/invite/marvelrivals',
+                    'Rivals Farming: https://discord.com/servers/lord-farming-by-procarry-1337849959789105162'
+                ]
+            },
+            plsdonate: {
+                label: 'Pls Donate',
+                servers: [
+                    'Official Pls Donate: https://discord.com/invite/plsdonate',
+                    'Pls Donate News: https://discord.com/servers/pls-donate-news--1027373133113610330',
+                    'Pls Donate Trading: https://discordbotlist.com/servers/the-donation-hub-983494809278889985/upvote'
+                ]
+            },
+            towerdefense: {
+                label: 'Tower Defense',
+                servers: [
+                    'Official Terraria TD: https://discord.com/invite/terrariatowerdefense',
+                    'Tower Defense Tides: https://discord.com/servers/tides-1390788122295664782',
+                    'Tower Defense Community: https://discord.com/invite/sbtd'
+                ]
+            },
+            dahood: {
+                label: 'Da Hood',
+                servers: [
+                    'Official Da Hood: https://discord.com/invite/dahood',
+                    'Da Hood Trading: https://discord.gg/dahoodtrading',
+                    'Da Hood EU: https://discord.com/servers/da-hood-eu-1217180054287810714'
+                ]
+            },
+            jailbreak: {
+                label: 'Jailbreak',
+                servers: [
+                    'Official Jailbreak: https://discord.com/invite/jailbreak',
+                    'Jailbreak Trading: https://discord.gg/jailbreak',
+                    'Jailbreak Community: https://discord.com/servers/jailbreak-hybrid-24-7-trades-stock-updates-1277156827678638111'
+                ]
+            },
+            bladeball: {
+                label: 'Bladeball',
+                servers: [
+                    'Official Bladeball: https://discord.com/invite/bladeball',
+                    'Bladeball Trading: https://discord.gg/bladeball',
+                    'Bladeball Community: https://discord.com/servers/blade-ball-1141515589924429869'
+                ]
+            },
+            deepwoken: {
+                label: 'Deepwoken',
+                servers: [
+                    'Official Deepwoken: https://discord.com/invite/deepwoken',
+                    'Deepwoken Trading: https://discord.com/invite/deepwoken-trading-hub-969040338373206026',
+                    'Deepwoken Community: https://discordbotlist.com/servers/deepwoken/join'
+                ]
+            }
         };
 
-        // ─── GET GAME FROM URL ──────────────────────────────────────────────
-        const params = new URLSearchParams(window.location.search);
-        const game = params.get('game');
+        // ─── RENDER GAME BUTTONS ─────────────────────────────────────────────
+        const grid = document.getElementById('gameGrid');
+        const container = document.getElementById('serversContainer');
+        let activeGame = null;
 
-        const list = document.getElementById('linkList');
+        Object.keys(data).forEach(key => {
+            const btn = document.createElement('button');
+            btn.className = 'game-btn';
+            btn.innerHTML = `${data[key].label} <span class="arrow">▶</span>`;
+            btn.dataset.game = key;
 
-        // ─── RENDER ──────────────────────────────────────────────────────────
-        // Always show servers — if game is invalid, show Adopt Me by default
-        let gameKey = game;
+            btn.addEventListener('click', () => {
+                // Toggle
+                if (activeGame === key) {
+                    container.classList.remove('open');
+                    container.innerHTML = '';
+                    activeGame = null;
+                    document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+                    return;
+                }
 
-        // If no game parameter or game doesn't exist, default to adoptme
-        if (!gameKey || !servers[gameKey]) {
-            gameKey = 'adoptme';
-        }
+                // Close any open
+                container.classList.remove('open');
+                container.innerHTML = '';
+                document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
 
-        // Render the servers
-        servers[gameKey].forEach(s => {
-            const a = document.createElement('a');
-            a.className = 'link-item';
-            a.href = s.link;
-            a.target = '_blank';
-            a.innerHTML = `
-                <span class="emoji">🔹</span>
-                <span class="name">${s.name}</span>
-                <span class="arrow">→</span>
-            `;
-            list.appendChild(a);
+                // Open this one
+                activeGame = key;
+                btn.classList.add('active');
+
+                const servers = data[key].servers;
+                servers.forEach(s => {
+                    const parts = s.split(': ');
+                    const name = parts[0];
+                    const link = parts[1];
+
+                    const a = document.createElement('a');
+                    a.className = 'server-link';
+                    a.href = link;
+                    a.target = '_blank';
+                    a.innerHTML = `
+                        <span class="emoji">🔹</span>
+                        <span class="name">${name}</span>
+                        <span class="badge">Invite</span>
+                        <span class="join">→</span>
+                    `;
+                    container.appendChild(a);
+                });
+
+                container.classList.add('open');
+            });
+
+            grid.appendChild(btn);
         });
+
+        // ─── OPEN FIRST GAME BY DEFAULT ──────────────────────────────────────
+        // Auto-open Adopt Me so the page never shows empty
+        const firstKey = Object.keys(data)[0];
+        const firstBtn = document.querySelector(`.game-btn[data-game="${firstKey}"]`);
+        if (firstBtn) firstBtn.click();
     </script>
 
 </body>
