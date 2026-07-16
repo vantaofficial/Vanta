@@ -3,339 +3,387 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VANTA · Discord Servers</title>
+    <title>VANTA · Hyperlink Formatter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0b0b14;
+            --bg-card: #13131f;
+            --bg-input: #0f0f1a;
+            --purple-primary: #8b5cf6;
+            --purple-light: #a78bfa;
+            --text-primary: #f0eef8;
+            --text-secondary: #b8b0d0;
+            --text-muted: #6b6288;
+            --border-color: #2a1f45;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow-card: 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(139,92,246,0.05);
         }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #0b0b14;
-            color: #f0eef8;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 30px 20px;
             display: flex;
+            align-items: center;
             justify-content: center;
+            overflow-x: hidden;
         }
-        .container {
-            max-width: 650px;
+        button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
+        input { font-family: inherit; border: none; outline: none; background: none; color: inherit; }
+        a { text-decoration: none; color: inherit; }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        .glow-orb-1 {
+            width: 500px; height: 500px;
+            top: -200px; right: -100px;
+            background: radial-gradient(circle, rgba(139,92,246,0.12), transparent 70%);
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+        .glow-orb-2 {
+            width: 400px; height: 400px;
+            bottom: -150px; left: -100px;
+            background: radial-gradient(circle, rgba(45,27,78,0.2), transparent 70%);
+            animation: floatOrb 25s ease-in-out infinite reverse;
+        }
+        @keyframes floatOrb {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(30px,-30px) scale(1.05); }
+            66% { transform: translate(-20px,20px) scale(0.95); }
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
             width: 100%;
-            background: #13131f;
-            border-radius: 16px;
-            padding: 35px 28px;
-            border: 1px solid #2a1f45;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            align-self: flex-start;
+            max-width: 580px;
+            padding: 24px;
         }
-        h1 {
-            font-size: 30px;
-            font-weight: 700;
-            color: #a78bfa;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .sub {
-            color: #6b6288;
-            font-size: 14px;
-            margin-top: 4px;
-            margin-bottom: 25px;
-        }
-        .game-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 25px;
-        }
-        .game-btn {
-            background: #0f0f1a;
-            border: 1px solid #2a1f45;
-            border-radius: 10px;
-            padding: 14px 18px;
-            color: #b8b0d0;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .game-btn:hover {
-            border-color: #8b5cf6;
-            background: #1a1a2e;
-            color: #fff;
-        }
-        .game-btn .arrow {
-            color: #6b6288;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .game-btn.active .arrow {
-            transform: rotate(90deg);
-            color: #a78bfa;
-        }
-        .game-btn.active {
-            border-color: #8b5cf6;
-            background: #1a1a2e;
-        }
-        .servers-container {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            padding-left: 6px;
-            border-left: 2px solid #2a1f45;
-        }
-        .servers-container.open {
-            display: flex;
-        }
-        .server-link {
-            background: #0b0b14;
-            border: 1px solid #1f1f30;
-            border-radius: 8px;
-            padding: 12px 16px;
-            text-decoration: none;
-            color: #b8b0d0;
-            display: flex;
+
+        .header { text-align: center; margin-bottom: 28px; }
+        .logo {
+            display: inline-flex;
             align-items: center;
             gap: 12px;
-            transition: all 0.3s;
+            margin-bottom: 6px;
         }
-        .server-link:hover {
-            border-color: #8b5cf6;
-            background: #14142a;
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--purple-primary), #7c3aed);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
             color: #fff;
+            box-shadow: 0 0 40px rgba(139,92,246,0.25);
         }
-        .server-link .emoji {
-            font-size: 18px;
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 40%, var(--purple-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .server-link .name {
-            flex: 1;
-            font-weight: 500;
-        }
-        .server-link .badge {
+        .logo-badge {
             font-size: 11px;
-            color: #6b6288;
-            background: #1a1a2a;
-            padding: 2px 10px;
-            border-radius: 20px;
+            font-weight: 600;
+            color: var(--purple-light);
+            background: rgba(139,92,246,0.12);
+            padding: 2px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(139,92,246,0.2);
         }
-        .server-link .join {
-            color: #6b6288;
-            font-size: 13px;
+        .header-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
         }
-        .footer {
-            margin-top: 25px;
-            padding-top: 18px;
-            border-top: 1px solid #2a1f45;
+        .header-sub span { color: var(--purple-light); font-weight: 500; }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+        .form-group label i { color: var(--purple-primary); margin-right: 6px; }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            color: var(--text-primary);
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+        .form-group input::placeholder { color: var(--text-muted); }
+        .form-group input:focus {
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 0 4px rgba(139,92,246,0.08);
+        }
+
+        .btn-format {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--purple-primary), #7c3aed);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 15px;
+            color: #fff;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(139,92,246,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-format:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(139,92,246,0.25); }
+        .btn-format:active { transform: scale(0.97); }
+
+        .output-wrapper { margin-top: 20px; }
+        .output-area {
+            padding: 16px 18px;
+            background: var(--bg-input);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-sm);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            font-size: 13px;
-            color: #6b6288;
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: all 0.3s;
+            word-break: break-all;
+            position: relative;
         }
-        .footer span {
-            color: #a78bfa;
+        .output-area.has-result {
+            border-color: var(--purple-primary);
+            border-style: solid;
+            color: var(--text-primary);
+            background: rgba(139,92,246,0.04);
+        }
+        .output-area .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 6px 16px;
+            background: var(--purple-primary);
+            color: #fff;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .output-area.has-result .copy-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .output-area .copy-btn:hover { background: var(--purple-light); transform: scale(1.02); }
+        .output-area .link-preview {
+            display: block;
+            font-size: 15px;
+            color: var(--purple-light);
+            word-break: break-all;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .output-area .link-preview:hover { color: #fff; }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+        .footer-brand {
+            font-family: 'Orbitron', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, var(--purple-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .error-message { color: #ef4444; font-weight: 500; }
+
+        @media (max-width: 640px) {
+            .app { padding: 16px; }
+            .card { padding: 20px 16px; }
+            .logo-text { font-size: 22px; }
+            .logo-icon { width: 38px; height: 38px; font-size: 18px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🎮 VANTA Servers</h1>
-        <p class="sub">Click a game to see all active Discord servers</p>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
 
-        <div class="game-grid" id="gameGrid"></div>
-        <div id="serversContainer" class="servers-container"></div>
+    <div class="app">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+                <span class="logo-text">VANTA</span>
+                <span class="logo-badge">v2</span>
+            </div>
+            <p class="header-sub">
+                <i class="fas fa-link" style="color:var(--purple-primary);"></i>
+                Format any URL into a <span>Discord-safe</span> hyperlink
+            </p>
+        </header>
 
-        <div class="footer">
-            <span>✦</span> All servers are active & verified <span>✦</span>
+        <div class="card">
+
+            <div class="form-group">
+                <label><i class="fas fa-globe"></i> Fake Roblox URL</label>
+                <input type="text" id="fakeUrl" placeholder="https://www.roblox.com.ml/users/133223244381/profile" />
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-link"></i> Shortened URL</label>
+                <input type="text" id="shortUrl" placeholder="https://linkurl.pk/qxVK011T" />
+            </div>
+
+            <button class="btn-format" id="formatBtn">
+                <i class="fas fa-magic"></i> FORMAT FOR DISCORD →
+            </button>
+
+            <div class="output-wrapper">
+                <div class="output-area" id="outputArea">
+                    <span id="outputText">Your formatted link will appear here...</span>
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+
         </div>
+
+        <footer class="footer">
+            <span class="footer-brand">VANTA</span>
+            <span style="opacity:0.5;"> · &copy; 2026 · All rights reserved</span>
+        </footer>
     </div>
 
     <script>
-        // ─── ALL GAMES & SERVERS ──────────────────────────────────────────────
-        const data = {
-            adoptme: {
-                label: 'Adopt Me',
-                servers: [
-                    'Official Adopt Me: https://discord.com/invite/adoptmeroblox',
-                    'Adopt Me Trading Hub: https://discord.com/invite/adoptmetrading',
-                    'Adopt Me Values: https://discord.com/invite/adoptmevalues',
-                    'Adopt Me Community: https://discord.com/invite/adoptmecommunity',
-                    'Adopt Me Giveaways: https://discord.com/invite/adoptmegiveaways'
-                ]
-            },
-            mm2: {
-                label: 'Murder Mystery 2',
-                servers: [
-                    'MM2 Trading: https://discord.gg/mm2trading',
-                    'MM2 Values: https://discord.gg/mm2values',
-                    'MM2 Empire: https://discord.gg/mm2empire',
-                    'MM2 Community: https://discord.com/invite/mm2'
-                ]
-            },
-            bloxfruits: {
-                label: 'Blox Fruits',
-                servers: [
-                    'Official Blox Fruits: https://discord.com/invite/bloxfruits',
-                    'Blox Fruits Trading: https://discord.com/invite/bfcs',
-                    'Blox Fruits Crew: https://discord.com/invite/bloxfruitscrew'
-                ]
-            },
-            ps99: {
-                label: 'Pet Simulator 99',
-                servers: [
-                    'Official PS99 (Big Games): https://discord.com/invite/biggames',
-                    'PS99 Trading: https://discord.com/invite/ps99trading',
-                    'PS99 ScriptX: https://discordbotlist.com/servers/ps99-scriptx/join'
-                ]
-            },
-            fisch: {
-                label: 'Fisch',
-                servers: [
-                    'Official Fisch: https://discord.com/invite/fischs',
-                    'Fisch Trading: https://discord.com/invite/fischtrading',
-                    'Fisch Community: https://discord.com/invite/fisch'
-                ]
-            },
-            stealabrainrot: {
-                label: 'Steal a Brainrot',
-                servers: [
-                    'Official SAB: https://discord.com/invite/stealabrianrot',
-                    'SAB Trading: https://discord.com/invite/stealabrainrott',
-                    'SAB Community: https://discord.com/servers/steal-a-brainrot-trading-admin-abuse-notifier-1369618777368690729'
-                ]
-            },
-            growagarden: {
-                label: 'Grow a Garden',
-                servers: [
-                    'Official Grow a Garden: https://discord.com/invite/growagarden',
-                    'Grow a Garden Trading: https://discord.com/invite/stealabrainrott',
-                    'Grow a Garden 2: https://discord.com/invite/growagarden2'
-                ]
-            },
-            rivals: {
-                label: 'Rivals',
-                servers: [
-                    'Official Rivals: https://discord.com/invite/rivals',
-                    'Marvel Rivals: https://discord.com/invite/marvelrivals',
-                    'Rivals Farming: https://discord.com/servers/lord-farming-by-procarry-1337849959789105162'
-                ]
-            },
-            plsdonate: {
-                label: 'Pls Donate',
-                servers: [
-                    'Official Pls Donate: https://discord.com/invite/plsdonate',
-                    'Pls Donate News: https://discord.com/servers/pls-donate-news--1027373133113610330',
-                    'Pls Donate Trading: https://discordbotlist.com/servers/the-donation-hub-983494809278889985/upvote'
-                ]
-            },
-            towerdefense: {
-                label: 'Tower Defense',
-                servers: [
-                    'Official Terraria TD: https://discord.com/invite/terrariatowerdefense',
-                    'Tower Defense Tides: https://discord.com/servers/tides-1390788122295664782',
-                    'Tower Defense Community: https://discord.com/invite/sbtd'
-                ]
-            },
-            dahood: {
-                label: 'Da Hood',
-                servers: [
-                    'Official Da Hood: https://discord.com/invite/dahood',
-                    'Da Hood Trading: https://discord.gg/dahoodtrading',
-                    'Da Hood EU: https://discord.com/servers/da-hood-eu-1217180054287810714'
-                ]
-            },
-            jailbreak: {
-                label: 'Jailbreak',
-                servers: [
-                    'Official Jailbreak: https://discord.com/invite/jailbreak',
-                    'Jailbreak Trading: https://discord.gg/jailbreak',
-                    'Jailbreak Community: https://discord.com/servers/jailbreak-hybrid-24-7-trades-stock-updates-1277156827678638111'
-                ]
-            },
-            bladeball: {
-                label: 'Bladeball',
-                servers: [
-                    'Official Bladeball: https://discord.com/invite/bladeball',
-                    'Bladeball Trading: https://discord.gg/bladeball',
-                    'Bladeball Community: https://discord.com/servers/blade-ball-1141515589924429869'
-                ]
-            },
-            deepwoken: {
-                label: 'Deepwoken',
-                servers: [
-                    'Official Deepwoken: https://discord.com/invite/deepwoken',
-                    'Deepwoken Trading: https://discord.com/invite/deepwoken-trading-hub-969040338373206026',
-                    'Deepwoken Community: https://discordbotlist.com/servers/deepwoken/join'
-                ]
+        (function() {
+            'use strict';
+
+            const fakeUrlInput = document.getElementById('fakeUrl');
+            const shortUrlInput = document.getElementById('shortUrl');
+            const formatBtn = document.getElementById('formatBtn');
+            const outputArea = document.getElementById('outputArea');
+            const outputText = document.getElementById('outputText');
+            const copyBtn = document.getElementById('copyBtn');
+
+            function formatLink(fakeUrl, shortUrl) {
+                let cleanFake = fakeUrl.trim();
+                let cleanShort = shortUrl.trim();
+
+                if (!cleanFake) return { error: 'Please enter a fake Roblox URL.' };
+                if (!cleanShort) return { error: 'Please enter a shortened URL.' };
+
+                if (!cleanFake.startsWith('http://') && !cleanFake.startsWith('https://')) {
+                    cleanFake = 'https://' + cleanFake;
+                }
+                if (!cleanShort.startsWith('http://') && !cleanShort.startsWith('https://')) {
+                    cleanShort = 'https://' + cleanShort;
+                }
+
+                try {
+                    new URL(cleanFake);
+                    new URL(cleanShort);
+                } catch (_) {
+                    return { error: 'Invalid URL. Please enter valid web addresses.' };
+                }
+
+                return { result: `[${cleanFake}](${cleanShort})` };
             }
-        };
 
-        // ─── RENDER GAME BUTTONS ─────────────────────────────────────────────
-        const grid = document.getElementById('gameGrid');
-        const container = document.getElementById('serversContainer');
-        let activeGame = null;
+            function handleFormat() {
+                const fakeUrl = fakeUrlInput.value;
+                const shortUrl = shortUrlInput.value;
 
-        Object.keys(data).forEach(key => {
-            const btn = document.createElement('button');
-            btn.className = 'game-btn';
-            btn.innerHTML = `${data[key].label} <span class="arrow">▶</span>`;
-            btn.dataset.game = key;
+                const result = formatLink(fakeUrl, shortUrl);
 
-            btn.addEventListener('click', () => {
-                // Toggle
-                if (activeGame === key) {
-                    container.classList.remove('open');
-                    container.innerHTML = '';
-                    activeGame = null;
-                    document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+                if (result.error) {
+                    outputText.innerHTML = '<span class="error-message">⚠️ ' + result.error + '</span>';
+                    outputArea.classList.remove('has-result');
                     return;
                 }
 
-                // Close any open
-                container.classList.remove('open');
-                container.innerHTML = '';
-                document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+                outputText.innerHTML = result.result;
+                outputArea.classList.add('has-result');
+            }
 
-                // Open this one
-                activeGame = key;
-                btn.classList.add('active');
+            formatBtn.addEventListener('click', handleFormat);
 
-                const servers = data[key].servers;
-                servers.forEach(s => {
-                    const parts = s.split(': ');
-                    const name = parts[0];
-                    const link = parts[1];
-
-                    const a = document.createElement('a');
-                    a.className = 'server-link';
-                    a.href = link;
-                    a.target = '_blank';
-                    a.innerHTML = `
-                        <span class="emoji">🔹</span>
-                        <span class="name">${name}</span>
-                        <span class="badge">Invite</span>
-                        <span class="join">→</span>
-                    `;
-                    container.appendChild(a);
-                });
-
-                container.classList.add('open');
+            fakeUrlInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') handleFormat();
+            });
+            shortUrlInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') handleFormat();
             });
 
-            grid.appendChild(btn);
-        });
+            copyBtn.addEventListener('click', function() {
+                const text = outputText.textContent;
+                if (text && !text.startsWith('Your formatted') && !text.startsWith('⚠️')) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        const original = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => copyBtn.innerHTML = original, 2000);
+                    }).catch(function() {
+                        const range = document.createRange();
+                        range.selectNode(outputText);
+                        window.getSelection().removeAllRanges();
+                        window.getSelection().addRange(range);
+                        document.execCommand('copy');
+                        window.getSelection().removeAllRanges();
+                        const original = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => copyBtn.innerHTML = original, 2000);
+                    });
+                }
+            });
 
-        // ─── OPEN FIRST GAME BY DEFAULT ──────────────────────────────────────
-        // Auto-open Adopt Me so the page never shows empty
-        const firstKey = Object.keys(data)[0];
-        const firstBtn = document.querySelector(`.game-btn[data-game="${firstKey}"]`);
-        if (firstBtn) firstBtn.click();
+            console.log('%c⚡ VANTA Hyperlink Formatter', 'font-size:20px; font-weight:bold; color:#8b5cf6;');
+        })();
     </script>
 
 </body>
