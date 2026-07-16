@@ -3,28 +3,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VANTA · Hyperlink Formatter</title>
+    <title>VANTA · Link Hider</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         :root {
             --bg-primary: #0b0b14;
             --bg-card: #13131f;
             --bg-input: #0f0f1a;
             --purple-primary: #8b5cf6;
             --purple-light: #a78bfa;
+            --purple-dark: #2d1b4e;
             --text-primary: #f0eef8;
             --text-secondary: #b8b0d0;
             --text-muted: #6b6288;
             --border-color: #2a1f45;
+            --border-light: rgba(139, 92, 246, 0.15);
             --radius: 16px;
             --radius-sm: 10px;
-            --shadow-card: 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(139,92,246,0.05);
+            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(139, 92, 246, 0.05);
+            --shadow-glow: 0 0 60px rgba(139, 92, 246, 0.08);
         }
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             background: var(--bg-primary);
@@ -34,10 +43,27 @@
             align-items: center;
             justify-content: center;
             overflow-x: hidden;
+            padding: 20px;
         }
-        button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
-        input { font-family: inherit; border: none; outline: none; background: none; color: inherit; }
-        a { text-decoration: none; color: inherit; }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+        input,
+        select {
+            font-family: inherit;
+            border: none;
+            outline: none;
+            background: none;
+            color: inherit;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
         .glow-orb {
             position: fixed;
@@ -48,32 +74,46 @@
             opacity: 0.3;
         }
         .glow-orb-1 {
-            width: 500px; height: 500px;
-            top: -200px; right: -100px;
-            background: radial-gradient(circle, rgba(139,92,246,0.12), transparent 70%);
+            width: 500px;
+            height: 500px;
+            top: -200px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 70%);
             animation: floatOrb 20s ease-in-out infinite;
         }
         .glow-orb-2 {
-            width: 400px; height: 400px;
-            bottom: -150px; left: -100px;
-            background: radial-gradient(circle, rgba(45,27,78,0.2), transparent 70%);
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(45, 27, 78, 0.2), transparent 70%);
             animation: floatOrb 25s ease-in-out infinite reverse;
         }
         @keyframes floatOrb {
-            0%,100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(30px,-30px) scale(1.05); }
-            66% { transform: translate(-20px,20px) scale(0.95); }
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
         }
 
         .app {
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 580px;
-            padding: 24px;
+            max-width: 620px;
+            padding: 10px 0;
         }
 
-        .header { text-align: center; margin-bottom: 28px; }
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
         .logo {
             display: inline-flex;
             align-items: center;
@@ -81,7 +121,8 @@
             margin-bottom: 6px;
         }
         .logo-icon {
-            width: 44px; height: 44px;
+            width: 44px;
+            height: 44px;
             background: linear-gradient(135deg, var(--purple-primary), #7c3aed);
             border-radius: var(--radius-sm);
             display: flex;
@@ -89,7 +130,7 @@
             justify-content: center;
             font-size: 22px;
             color: #fff;
-            box-shadow: 0 0 40px rgba(139,92,246,0.25);
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
         }
         .logo-text {
             font-family: 'Orbitron', monospace;
@@ -104,16 +145,19 @@
             font-size: 11px;
             font-weight: 600;
             color: var(--purple-light);
-            background: rgba(139,92,246,0.12);
+            background: rgba(139, 92, 246, 0.12);
             padding: 2px 14px;
             border-radius: 50px;
-            border: 1px solid rgba(139,92,246,0.2);
+            border: 1px solid rgba(139, 92, 246, 0.2);
         }
         .header-sub {
             font-size: 14px;
             color: var(--text-secondary);
         }
-        .header-sub span { color: var(--purple-light); font-weight: 500; }
+        .header-sub span {
+            color: var(--purple-light);
+            font-weight: 500;
+        }
 
         .card {
             background: var(--bg-card);
@@ -123,7 +167,9 @@
             box-shadow: var(--shadow-card);
         }
 
-        .form-group { margin-bottom: 16px; }
+        .form-group {
+            margin-bottom: 16px;
+        }
         .form-group label {
             display: block;
             font-size: 12px;
@@ -133,8 +179,12 @@
             letter-spacing: 0.8px;
             margin-bottom: 6px;
         }
-        .form-group label i { color: var(--purple-primary); margin-right: 6px; }
-        .form-group input {
+        .form-group label i {
+            color: var(--purple-primary);
+            margin-right: 6px;
+        }
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 14px 16px;
             background: var(--bg-input);
@@ -143,14 +193,22 @@
             font-size: 15px;
             color: var(--text-primary);
             transition: border 0.3s, box-shadow 0.3s;
+            appearance: auto;
         }
-        .form-group input::placeholder { color: var(--text-muted); }
-        .form-group input:focus {
+        .form-group input::placeholder {
+            color: var(--text-muted);
+        }
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: var(--purple-primary);
-            box-shadow: 0 0 0 4px rgba(139,92,246,0.08);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.08);
+        }
+        .form-group select option {
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
 
-        .btn-format {
+        .btn-shorten {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, var(--purple-primary), #7c3aed);
@@ -159,16 +217,27 @@
             font-size: 15px;
             color: #fff;
             transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(139,92,246,0.15);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
-        .btn-format:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(139,92,246,0.25); }
-        .btn-format:active { transform: scale(0.97); }
+        .btn-shorten:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.25);
+        }
+        .btn-shorten:active {
+            transform: scale(0.97);
+        }
+        .btn-shorten:disabled {
+            opacity: 0.5;
+            transform: none;
+        }
 
-        .output-wrapper { margin-top: 20px; }
+        .output-wrapper {
+            margin-top: 20px;
+        }
         .output-area {
             padding: 16px 18px;
             background: var(--bg-input);
@@ -189,7 +258,7 @@
             border-color: var(--purple-primary);
             border-style: solid;
             color: var(--text-primary);
-            background: rgba(139,92,246,0.04);
+            background: rgba(139, 92, 246, 0.04);
         }
         .output-area .copy-btn {
             position: absolute;
@@ -212,7 +281,10 @@
             opacity: 1;
             pointer-events: auto;
         }
-        .output-area .copy-btn:hover { background: var(--purple-light); transform: scale(1.02); }
+        .output-area .copy-btn:hover {
+            background: var(--purple-light);
+            transform: scale(1.02);
+        }
         .output-area .link-preview {
             display: block;
             font-size: 15px;
@@ -221,7 +293,38 @@
             text-decoration: underline;
             cursor: pointer;
         }
-        .output-area .link-preview:hover { color: #fff; }
+        .output-area .link-preview:hover {
+            color: #fff;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .service-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 8px 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            text-align: center;
+            cursor: pointer;
+        }
+        .service-btn:hover {
+            border-color: var(--purple-primary);
+            background: rgba(139, 92, 246, 0.06);
+            color: var(--text-primary);
+        }
+        .service-btn.active {
+            border-color: var(--purple-primary);
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--purple-light);
+        }
 
         .footer {
             margin-top: 24px;
@@ -240,13 +343,51 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .error-message { color: #ef4444; font-weight: 500; }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-weight: 500;
+        }
 
         @media (max-width: 640px) {
-            .app { padding: 16px; }
-            .card { padding: 20px 16px; }
-            .logo-text { font-size: 22px; }
-            .logo-icon { width: 38px; height: 38px; font-size: 18px; }
+            .app {
+                padding: 0;
+            }
+            .card {
+                padding: 20px 16px;
+            }
+            .logo-text {
+                font-size: 22px;
+            }
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .service-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            .service-btn {
+                font-size: 10px;
+                padding: 6px 4px;
+            }
         }
     </style>
 </head>
@@ -264,29 +405,50 @@
             </div>
             <p class="header-sub">
                 <i class="fas fa-link" style="color:var(--purple-primary);"></i>
-                Format any URL into a <span>Discord-safe</span> hyperlink
+                Professional URL Shortening Service <span>⚡</span>
             </p>
         </header>
 
         <div class="card">
 
             <div class="form-group">
-                <label><i class="fas fa-globe"></i> Fake Roblox URL</label>
-                <input type="text" id="fakeUrl" placeholder="https://www.roblox.com.ml/users/133223244381/profile" />
+                <label><i class="fas fa-globe"></i> URL</label>
+                <input type="text" id="urlInput" placeholder="https://example.com/very/long/url" autofocus />
             </div>
 
             <div class="form-group">
-                <label><i class="fas fa-link"></i> Shortened URL</label>
-                <input type="text" id="shortUrl" placeholder="https://linkurl.pk/qxVK011T" />
+                <label><i class="fas fa-tag"></i> Service</label>
+                <div class="service-grid" id="serviceGrid">
+                    <button class="service-btn active" data-service="is.gd">is.gd</button>
+                    <button class="service-btn" data-service="tinyurl">TinyURL</button>
+                    <button class="service-btn" data-service="v.gd">v.gd</button>
+                    <button class="service-btn" data-service="rebrandly">Rebrandly</button>
+                    <button class="service-btn" data-service="cuttly">Cutt.ly</button>
+                    <button class="service-btn" data-service="clickly">click.ly</button>
+                    <button class="service-btn" data-service="tinycc">tiny.cc</button>
+                    <button class="service-btn" data-service="shorterme">shorter.me</button>
+                    <button class="service-btn" data-service="shortergg">shorter.gg</button>
+                    <button class="service-btn" data-service="spoo.me">spoo.me</button>
+                    <button class="service-btn" data-service="shorturlasia">shorturl.asia</button>
+                    <button class="service-btn" data-service="reurlcc">reurl.cc</button>
+                    <button class="service-btn" data-service="href.li">href.li</button>
+                    <button class="service-btn" data-service="hyperhost">HyperHost</button>
+                    <button class="service-btn" data-service="l8.nu">l8.nu</button>
+                    <button class="service-btn" data-service="rb.gy">rb.gy</button>
+                    <button class="service-btn" data-service="t2m.io">t2m.io</button>
+                    <button class="service-btn" data-service="clck.ru">clck.ru</button>
+                    <button class="service-btn" data-service="short.io">short.io</button>
+                    <button class="service-btn" data-service="kurze.links">kurze.links</button>
+                </div>
             </div>
 
-            <button class="btn-format" id="formatBtn">
-                <i class="fas fa-magic"></i> FORMAT FOR DISCORD →
+            <button class="btn-shorten" id="shortenBtn">
+                <i class="fas fa-scissors"></i> Shorten URL
             </button>
 
             <div class="output-wrapper">
                 <div class="output-area" id="outputArea">
-                    <span id="outputText">Your formatted link will appear here...</span>
+                    <span id="outputText">Your shortened link will appear here...</span>
                     <button class="copy-btn" id="copyBtn">
                         <i class="fas fa-copy"></i> Copy
                     </button>
@@ -305,72 +467,156 @@
         (function() {
             'use strict';
 
-            const fakeUrlInput = document.getElementById('fakeUrl');
-            const shortUrlInput = document.getElementById('shortUrl');
-            const formatBtn = document.getElementById('formatBtn');
+            const urlInput = document.getElementById('urlInput');
+            const shortenBtn = document.getElementById('shortenBtn');
             const outputArea = document.getElementById('outputArea');
             const outputText = document.getElementById('outputText');
             const copyBtn = document.getElementById('copyBtn');
+            const serviceGrid = document.getElementById('serviceGrid');
 
-            function formatLink(fakeUrl, shortUrl) {
-                let cleanFake = fakeUrl.trim();
-                let cleanShort = shortUrl.trim();
+            let selectedService = 'is.gd';
 
-                if (!cleanFake) return { error: 'Please enter a fake Roblox URL.' };
-                if (!cleanShort) return { error: 'Please enter a shortened URL.' };
+            // ─── SERVICE SELECTION ──────────────────────────────────────────
+            serviceGrid.addEventListener('click', function(e) {
+                const btn = e.target.closest('.service-btn');
+                if (!btn) return;
+                serviceGrid.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedService = btn.dataset.service;
+            });
 
-                if (!cleanFake.startsWith('http://') && !cleanFake.startsWith('https://')) {
-                    cleanFake = 'https://' + cleanFake;
+            // ─── SHORTEN FUNCTION ──────────────────────────────────────────
+            async function shortenUrl(url, service) {
+                let cleanUrl = url.trim();
+                if (!cleanUrl) return { error: 'Please enter a URL.' };
+                if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+                    cleanUrl = 'https://' + cleanUrl;
                 }
-                if (!cleanShort.startsWith('http://') && !cleanShort.startsWith('https://')) {
-                    cleanShort = 'https://' + cleanShort;
+                try {
+                    new URL(cleanUrl);
+                } catch (_) {
+                    return { error: 'Invalid URL. Please enter a valid web address.' };
                 }
+
+                // API endpoints for each service
+                const apis = {
+                    'is.gd': {
+                        url: 'https://is.gd/create.php',
+                        method: 'GET',
+                        params: { format: 'json', url: cleanUrl }
+                    },
+                    'v.gd': {
+                        url: 'https://v.gd/create.php',
+                        method: 'GET',
+                        params: { format: 'json', url: cleanUrl }
+                    },
+                    'tinyurl': {
+                        url: 'https://tinyurl.com/api-create.php',
+                        method: 'GET',
+                        params: { url: cleanUrl }
+                    },
+                    'rebrandly': {
+                        url: 'https://api.rebrandly.com/v1/links',
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: { destination: cleanUrl, domain: { fullName: 'rebrand.ly' } }
+                    }
+                };
+
+                const api = apis[service];
+                if (!api) return { error: 'Service not supported yet.' };
 
                 try {
-                    new URL(cleanFake);
-                    new URL(cleanShort);
-                } catch (_) {
-                    return { error: 'Invalid URL. Please enter valid web addresses.' };
-                }
+                    let response;
+                    if (api.method === 'GET') {
+                        const params = new URLSearchParams(api.params);
+                        response = await fetch(api.url + '?' + params.toString());
+                    } else {
+                        response = await fetch(api.url, {
+                            method: api.method,
+                            headers: api.headers || {},
+                            body: JSON.stringify(api.body || {})
+                        });
+                    }
 
-                return { result: `[${cleanFake}](${cleanShort})` };
+                    const data = await response.text();
+
+                    // Parse response
+                    let shortUrl = null;
+                    if (service === 'is.gd' || service === 'v.gd') {
+                        try {
+                            const json = JSON.parse(data);
+                            shortUrl = json.shorturl || json.url || null;
+                        } catch (_) {
+                            // Plain text response
+                            if (data.startsWith('http')) shortUrl = data;
+                        }
+                    } else if (service === 'tinyurl') {
+                        if (data.startsWith('http')) shortUrl = data;
+                    } else if (service === 'rebrandly') {
+                        try {
+                            const json = JSON.parse(data);
+                            shortUrl = json.shortUrl ? 'https://' + json.shortUrl : null;
+                        } catch (_) {}
+                    }
+
+                    if (shortUrl) return { shortUrl: shortUrl };
+                    return { error: 'Shortening failed. Please try again.' };
+
+                } catch (_) {
+                    return { error: 'Network error. Please check your internet connection.' };
+                }
             }
 
-            function handleFormat() {
-                const fakeUrl = fakeUrlInput.value;
-                const shortUrl = shortUrlInput.value;
+            // ─── HANDLE SHORTEN ────────────────────────────────────────────
+            async function handleShorten() {
+                const url = urlInput.value;
+                const originalText = shortenBtn.innerHTML;
 
-                const result = formatLink(fakeUrl, shortUrl);
-
-                if (result.error) {
-                    outputText.innerHTML = '<span class="error-message">⚠️ ' + result.error + '</span>';
+                if (!url || url.trim() === '') {
+                    outputText.innerHTML = '<span class="error-message">⚠️ Please enter a URL.</span>';
                     outputArea.classList.remove('has-result');
                     return;
                 }
 
-                outputText.innerHTML = result.result;
+                shortenBtn.disabled = true;
+                shortenBtn.innerHTML = '<span class="loading-spinner"></span> Shortening...';
+                outputArea.classList.remove('has-result');
+                outputText.textContent = '⏳ Shortening...';
+
+                const result = await shortenUrl(url, selectedService);
+
+                if (result.error) {
+                    outputText.innerHTML = '<span class="error-message">⚠️ ' + result.error + '</span>';
+                    shortenBtn.innerHTML = originalText;
+                    shortenBtn.disabled = false;
+                    return;
+                }
+
+                outputText.innerHTML = '<a href="' + result.shortUrl + '" target="_blank" class="link-preview">' + result
+                    .shortUrl + '</a>';
                 outputArea.classList.add('has-result');
+
+                shortenBtn.innerHTML = originalText;
+                shortenBtn.disabled = false;
             }
 
-            formatBtn.addEventListener('click', handleFormat);
-
-            fakeUrlInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') handleFormat();
-            });
-            shortUrlInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') handleFormat();
+            shortenBtn.addEventListener('click', handleShorten);
+            urlInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') handleShorten();
             });
 
+            // ─── COPY ──────────────────────────────────────────────────────
             copyBtn.addEventListener('click', function() {
-                const text = outputText.textContent;
-                if (text && !text.startsWith('Your formatted') && !text.startsWith('⚠️')) {
-                    navigator.clipboard.writeText(text).then(function() {
+                const link = outputText.querySelector('a');
+                if (link) {
+                    navigator.clipboard.writeText(link.href).then(function() {
                         const original = copyBtn.innerHTML;
                         copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                         setTimeout(() => copyBtn.innerHTML = original, 2000);
                     }).catch(function() {
                         const range = document.createRange();
-                        range.selectNode(outputText);
+                        range.selectNode(link);
                         window.getSelection().removeAllRanges();
                         window.getSelection().addRange(range);
                         document.execCommand('copy');
@@ -382,7 +628,9 @@
                 }
             });
 
-            console.log('%c⚡ VANTA Hyperlink Formatter', 'font-size:20px; font-weight:bold; color:#8b5cf6;');
+            console.log('%c⚡ VANTA Link Hider', 'font-size:20px; font-weight:bold; color:#8b5cf6;');
+            console.log('%cProfessional URL Shortening Service', 'font-size:12px; color:#a78bfa;');
+
         })();
     </script>
 
