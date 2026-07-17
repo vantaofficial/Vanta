@@ -3,37 +3,29 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VANTA · Link Hider</title>
+    <title>VANTA · Discord Servers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0b0b14;
             --bg-card: #13131f;
+            --bg-card-hover: #1a1a2e;
             --bg-input: #0f0f1a;
             --purple-primary: #8b5cf6;
             --purple-light: #a78bfa;
-            --purple-dark: #2d1b4e;
             --text-primary: #f0eef8;
             --text-secondary: #b8b0d0;
             --text-muted: #6b6288;
             --border-color: #2a1f45;
-            --border-light: rgba(139, 92, 246, 0.15);
             --radius: 16px;
             --radius-sm: 10px;
-            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(139, 92, 246, 0.05);
-            --shadow-glow: 0 0 60px rgba(139, 92, 246, 0.08);
+            --shadow-card: 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(139,92,246,0.05);
         }
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             background: var(--bg-primary);
@@ -42,28 +34,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
             padding: 20px;
+            overflow-x: hidden;
         }
-        button {
-            cursor: pointer;
-            font-family: inherit;
-            border: none;
-            background: none;
-            color: inherit;
-        }
-        input,
-        select {
-            font-family: inherit;
-            border: none;
-            outline: none;
-            background: none;
-            color: inherit;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+        button { cursor: pointer; font-family: inherit; border: none; background: none; color: inherit; }
+        input, select { font-family: inherit; border: none; outline: none; background: none; color: inherit; }
+        a { text-decoration: none; color: inherit; }
 
         .glow-orb {
             position: fixed;
@@ -74,32 +50,21 @@
             opacity: 0.3;
         }
         .glow-orb-1 {
-            width: 500px;
-            height: 500px;
-            top: -200px;
-            right: -100px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 70%);
+            width: 500px; height: 500px;
+            top: -200px; right: -100px;
+            background: radial-gradient(circle, rgba(139,92,246,0.12), transparent 70%);
             animation: floatOrb 20s ease-in-out infinite;
         }
         .glow-orb-2 {
-            width: 400px;
-            height: 400px;
-            bottom: -150px;
-            left: -100px;
-            background: radial-gradient(circle, rgba(45, 27, 78, 0.2), transparent 70%);
+            width: 400px; height: 400px;
+            bottom: -150px; left: -100px;
+            background: radial-gradient(circle, rgba(45,27,78,0.2), transparent 70%);
             animation: floatOrb 25s ease-in-out infinite reverse;
         }
         @keyframes floatOrb {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30px, -30px) scale(1.05);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.95);
-            }
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(30px,-30px) scale(1.05); }
+            66% { transform: translate(-20px,20px) scale(0.95); }
         }
 
         .app {
@@ -107,13 +72,9 @@
             z-index: 1;
             width: 100%;
             max-width: 620px;
-            padding: 10px 0;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
+        .header { text-align: center; margin-bottom: 28px; }
         .logo {
             display: inline-flex;
             align-items: center;
@@ -121,8 +82,7 @@
             margin-bottom: 6px;
         }
         .logo-icon {
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             background: linear-gradient(135deg, var(--purple-primary), #7c3aed);
             border-radius: var(--radius-sm);
             display: flex;
@@ -130,7 +90,7 @@
             justify-content: center;
             font-size: 22px;
             color: #fff;
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
+            box-shadow: 0 0 40px rgba(139,92,246,0.25);
         }
         .logo-text {
             font-family: 'Orbitron', monospace;
@@ -145,189 +105,99 @@
             font-size: 11px;
             font-weight: 600;
             color: var(--purple-light);
-            background: rgba(139, 92, 246, 0.12);
+            background: rgba(139,92,246,0.12);
             padding: 2px 14px;
             border-radius: 50px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139,92,246,0.2);
         }
         .header-sub {
             font-size: 14px;
             color: var(--text-secondary);
         }
-        .header-sub span {
-            color: var(--purple-light);
-            font-weight: 500;
-        }
+        .header-sub span { color: var(--purple-light); font-weight: 500; }
 
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 28px 24px;
+            padding: 24px 20px;
             box-shadow: var(--shadow-card);
         }
 
-        .form-group {
+        .game-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             margin-bottom: 16px;
         }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
+        .game-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
             color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 6px;
-        }
-        .form-group label i {
-            color: var(--purple-primary);
-            margin-right: 6px;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 14px 16px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
             font-size: 15px;
-            color: var(--text-primary);
-            transition: border 0.3s, box-shadow 0.3s;
-            appearance: auto;
-        }
-        .form-group input::placeholder {
-            color: var(--text-muted);
-        }
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--purple-primary);
-            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.08);
-        }
-        .form-group select option {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-
-        .btn-shorten {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--purple-primary), #7c3aed);
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 15px;
-            color: #fff;
-            transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-shorten:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 50px rgba(139, 92, 246, 0.25);
-        }
-        .btn-shorten:active {
-            transform: scale(0.97);
-        }
-        .btn-shorten:disabled {
-            opacity: 0.5;
-            transform: none;
-        }
-
-        .output-wrapper {
-            margin-top: 20px;
-        }
-        .output-area {
-            padding: 16px 18px;
-            background: var(--bg-input);
-            border: 1px dashed var(--border-color);
-            border-radius: var(--radius-sm);
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-            transition: all 0.3s;
-            word-break: break-all;
-            position: relative;
-        }
-        .output-area.has-result {
-            border-color: var(--purple-primary);
-            border-style: solid;
-            color: var(--text-primary);
-            background: rgba(139, 92, 246, 0.04);
-        }
-        .output-area .copy-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            padding: 6px 16px;
-            background: var(--purple-primary);
-            color: #fff;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-            opacity: 0;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .output-area.has-result .copy-btn {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .output-area .copy-btn:hover {
-            background: var(--purple-light);
-            transform: scale(1.02);
-        }
-        .output-area .link-preview {
-            display: block;
-            font-size: 15px;
-            color: var(--purple-light);
-            word-break: break-all;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .output-area .link-preview:hover {
-            color: #fff;
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .service-btn {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 8px 6px;
-            font-size: 12px;
             font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-            text-align: center;
             cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .service-btn:hover {
+        .game-btn:hover {
             border-color: var(--purple-primary);
-            background: rgba(139, 92, 246, 0.06);
+            background: rgba(139,92,246,0.06);
             color: var(--text-primary);
         }
-        .service-btn.active {
-            border-color: var(--purple-primary);
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--purple-light);
+        .game-btn .arrow {
+            color: var(--text-muted);
+            font-size: 13px;
+            transition: 0.3s;
         }
+        .game-btn.active .arrow { transform: rotate(90deg); color: var(--purple-light); }
+        .game-btn.active { border-color: var(--purple-primary); background: rgba(139,92,246,0.06); }
+
+        .servers-container {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+            padding-left: 4px;
+            border-left: 2px solid rgba(139,92,246,0.15);
+        }
+        .servers-container.open { display: flex; }
+
+        .server-link {
+            background: rgba(255,255,255,0.015);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+        .server-link:hover {
+            border-color: var(--purple-primary);
+            background: rgba(139,92,246,0.04);
+            color: var(--text-primary);
+        }
+        .server-link .emoji { font-size: 16px; }
+        .server-link .name { flex: 1; font-weight: 500; font-size: 14px; }
+        .server-link .badge {
+            font-size: 10px;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+        .server-link .join { color: var(--text-muted); font-size: 13px; }
 
         .footer {
-            margin-top: 24px;
+            margin-top: 20px;
             text-align: center;
             font-size: 12px;
             color: var(--text-muted);
@@ -343,51 +213,11 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-top: 2px solid #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .error-message {
-            color: #ef4444;
-            font-weight: 500;
-        }
-
         @media (max-width: 640px) {
-            .app {
-                padding: 0;
-            }
-            .card {
-                padding: 20px 16px;
-            }
-            .logo-text {
-                font-size: 22px;
-            }
-            .logo-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 18px;
-            }
-            .service-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            }
-            .service-btn {
-                font-size: 10px;
-                padding: 6px 4px;
-            }
+            .app { padding: 0; }
+            .card { padding: 18px 14px; }
+            .logo-text { font-size: 22px; }
+            .logo-icon { width: 38px; height: 38px; font-size: 18px; }
         }
     </style>
 </head>
@@ -404,62 +234,19 @@
                 <span class="logo-badge">v2</span>
             </div>
             <p class="header-sub">
-                <i class="fas fa-link" style="color:var(--purple-primary);"></i>
-                Professional URL Shortening Service <span>⚡</span>
+                <i class="fas fa-users" style="color:var(--purple-primary);"></i>
+                Click a game to see <span>active Discord servers</span>
             </p>
         </header>
 
         <div class="card">
-
-            <div class="form-group">
-                <label><i class="fas fa-globe"></i> URL</label>
-                <input type="text" id="urlInput" placeholder="https://example.com/very/long/url" autofocus />
-            </div>
-
-            <div class="form-group">
-                <label><i class="fas fa-tag"></i> Service</label>
-                <div class="service-grid" id="serviceGrid">
-                    <button class="service-btn active" data-service="is.gd">is.gd</button>
-                    <button class="service-btn" data-service="tinyurl">TinyURL</button>
-                    <button class="service-btn" data-service="v.gd">v.gd</button>
-                    <button class="service-btn" data-service="rebrandly">Rebrandly</button>
-                    <button class="service-btn" data-service="cuttly">Cutt.ly</button>
-                    <button class="service-btn" data-service="clickly">click.ly</button>
-                    <button class="service-btn" data-service="tinycc">tiny.cc</button>
-                    <button class="service-btn" data-service="shorterme">shorter.me</button>
-                    <button class="service-btn" data-service="shortergg">shorter.gg</button>
-                    <button class="service-btn" data-service="spoo.me">spoo.me</button>
-                    <button class="service-btn" data-service="shorturlasia">shorturl.asia</button>
-                    <button class="service-btn" data-service="reurlcc">reurl.cc</button>
-                    <button class="service-btn" data-service="href.li">href.li</button>
-                    <button class="service-btn" data-service="hyperhost">HyperHost</button>
-                    <button class="service-btn" data-service="l8.nu">l8.nu</button>
-                    <button class="service-btn" data-service="rb.gy">rb.gy</button>
-                    <button class="service-btn" data-service="t2m.io">t2m.io</button>
-                    <button class="service-btn" data-service="clck.ru">clck.ru</button>
-                    <button class="service-btn" data-service="short.io">short.io</button>
-                    <button class="service-btn" data-service="kurze.links">kurze.links</button>
-                </div>
-            </div>
-
-            <button class="btn-shorten" id="shortenBtn">
-                <i class="fas fa-scissors"></i> Shorten URL
-            </button>
-
-            <div class="output-wrapper">
-                <div class="output-area" id="outputArea">
-                    <span id="outputText">Your shortened link will appear here...</span>
-                    <button class="copy-btn" id="copyBtn">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                </div>
-            </div>
-
+            <div class="game-grid" id="gameGrid"></div>
+            <div id="serversContainer" class="servers-container"></div>
         </div>
 
         <footer class="footer">
             <span class="footer-brand">VANTA</span>
-            <span style="opacity:0.5;"> · &copy; 2026 · All rights reserved</span>
+            <span style="opacity:0.5;"> · &copy; 2026 · All servers active</span>
         </footer>
     </div>
 
@@ -467,170 +254,177 @@
         (function() {
             'use strict';
 
-            const urlInput = document.getElementById('urlInput');
-            const shortenBtn = document.getElementById('shortenBtn');
-            const outputArea = document.getElementById('outputArea');
-            const outputText = document.getElementById('outputText');
-            const copyBtn = document.getElementById('copyBtn');
-            const serviceGrid = document.getElementById('serviceGrid');
-
-            let selectedService = 'is.gd';
-
-            // ─── SERVICE SELECTION ──────────────────────────────────────────
-            serviceGrid.addEventListener('click', function(e) {
-                const btn = e.target.closest('.service-btn');
-                if (!btn) return;
-                serviceGrid.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedService = btn.dataset.service;
-            });
-
-            // ─── SHORTEN FUNCTION ──────────────────────────────────────────
-            async function shortenUrl(url, service) {
-                let cleanUrl = url.trim();
-                if (!cleanUrl) return { error: 'Please enter a URL.' };
-                if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
-                    cleanUrl = 'https://' + cleanUrl;
+            const data = {
+                adoptme: {
+                    label: 'Adopt Me',
+                    servers: [
+                        'Official Adopt Me: https://discord.com/invite/adoptmeroblox',
+                        'Adopt Me Trading Hub: https://discord.com/invite/adoptmetrading',
+                        'Adopt Me Values: https://discord.com/invite/adoptmevalues'
+                    ]
+                },
+                mm2: {
+                    label: 'Murder Mystery 2',
+                    servers: [
+                        'MM2 Trading: https://discord.gg/mm2trading',
+                        'MM2 Values: https://discord.gg/mm2values',
+                        'MM2 Empire: https://discord.gg/mm2empire'
+                    ]
+                },
+                bloxfruits: {
+                    label: 'Blox Fruits',
+                    servers: [
+                        'Official Blox Fruits: https://discord.com/invite/bloxfruits',
+                        'Blox Fruits Trading: https://discord.com/invite/bfcs',
+                        'Blox Fruits Crew: https://discord.com/invite/bloxfruitscrew'
+                    ]
+                },
+                ps99: {
+                    label: 'Pet Simulator 99',
+                    servers: [
+                        'Official PS99: https://discord.com/invite/biggames',
+                        'PS99 Trading: https://discord.com/invite/ps99trading',
+                        'PS99 ScriptX: https://discordbotlist.com/servers/ps99-scriptx/join'
+                    ]
+                },
+                fisch: {
+                    label: 'Fisch',
+                    servers: [
+                        'Official Fisch: https://discord.com/invite/fischs',
+                        'Fisch Trading: https://discord.com/invite/fischtrading',
+                        'Fisch Community: https://discord.com/invite/fisch'
+                    ]
+                },
+                stealabrainrot: {
+                    label: 'Steal a Brainrot',
+                    servers: [
+                        'Official SAB: https://discord.com/invite/stealabrianrot',
+                        'SAB Trading: https://discord.com/invite/stealabrainrott',
+                        'SAB Community: https://discord.com/servers/steal-a-brainrot-trading-admin-abuse-notifier-1369618777368690729'
+                    ]
+                },
+                growagarden: {
+                    label: 'Grow a Garden',
+                    servers: [
+                        'Official Grow a Garden: https://discord.com/invite/growagarden',
+                        'Grow a Garden Trading: https://discord.com/invite/stealabrainrott',
+                        'Grow a Garden 2: https://discord.com/invite/growagarden2'
+                    ]
+                },
+                rivals: {
+                    label: 'Rivals',
+                    servers: [
+                        'Official Rivals: https://discord.com/invite/rivals',
+                        'Marvel Rivals: https://discord.com/invite/marvelrivals',
+                        'Rivals Farming: https://discord.com/servers/lord-farming-by-procarry-1337849959789105162'
+                    ]
+                },
+                plsdonate: {
+                    label: 'Pls Donate',
+                    servers: [
+                        'Official Pls Donate: https://discord.com/invite/plsdonate',
+                        'Pls Donate News: https://discord.com/servers/pls-donate-news--1027373133113610330',
+                        'Pls Donate Trading: https://discordbotlist.com/servers/the-donation-hub-983494809278889985/upvote'
+                    ]
+                },
+                towerdefense: {
+                    label: 'Tower Defense',
+                    servers: [
+                        'Official Terraria TD: https://discord.com/invite/terrariatowerdefense',
+                        'Tower Defense Tides: https://discord.com/servers/tides-1390788122295664782',
+                        'Tower Defense Community: https://discord.com/invite/sbtd'
+                    ]
+                },
+                dahood: {
+                    label: 'Da Hood',
+                    servers: [
+                        'Official Da Hood: https://discord.com/invite/dahood',
+                        'Da Hood Trading: https://discord.gg/dahoodtrading',
+                        'Da Hood EU: https://discord.com/servers/da-hood-eu-1217180054287810714'
+                    ]
+                },
+                jailbreak: {
+                    label: 'Jailbreak',
+                    servers: [
+                        'Official Jailbreak: https://discord.com/invite/jailbreak',
+                        'Jailbreak Trading: https://discord.gg/jailbreak',
+                        'Jailbreak Community: https://discord.com/servers/jailbreak-hybrid-24-7-trades-stock-updates-1277156827678638111'
+                    ]
+                },
+                bladeball: {
+                    label: 'Bladeball',
+                    servers: [
+                        'Official Bladeball: https://discord.com/invite/bladeball',
+                        'Bladeball Trading: https://discord.gg/bladeball',
+                        'Bladeball Community: https://discord.com/servers/blade-ball-1141515589924429869'
+                    ]
+                },
+                deepwoken: {
+                    label: 'Deepwoken',
+                    servers: [
+                        'Official Deepwoken: https://discord.com/invite/deepwoken',
+                        'Deepwoken Trading: https://discord.com/invite/deepwoken-trading-hub-969040338373206026',
+                        'Deepwoken Community: https://discordbotlist.com/servers/deepwoken/join'
+                    ]
                 }
-                try {
-                    new URL(cleanUrl);
-                } catch (_) {
-                    return { error: 'Invalid URL. Please enter a valid web address.' };
-                }
+            };
 
-                // API endpoints for each service
-                const apis = {
-                    'is.gd': {
-                        url: 'https://is.gd/create.php',
-                        method: 'GET',
-                        params: { format: 'json', url: cleanUrl }
-                    },
-                    'v.gd': {
-                        url: 'https://v.gd/create.php',
-                        method: 'GET',
-                        params: { format: 'json', url: cleanUrl }
-                    },
-                    'tinyurl': {
-                        url: 'https://tinyurl.com/api-create.php',
-                        method: 'GET',
-                        params: { url: cleanUrl }
-                    },
-                    'rebrandly': {
-                        url: 'https://api.rebrandly.com/v1/links',
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: { destination: cleanUrl, domain: { fullName: 'rebrand.ly' } }
+            const grid = document.getElementById('gameGrid');
+            const container = document.getElementById('serversContainer');
+            let activeGame = null;
+
+            Object.keys(data).forEach(key => {
+                const btn = document.createElement('button');
+                btn.className = 'game-btn';
+                btn.innerHTML = `${data[key].label} <span class="arrow">▶</span>`;
+                btn.dataset.game = key;
+
+                btn.addEventListener('click', () => {
+                    if (activeGame === key) {
+                        container.classList.remove('open');
+                        container.innerHTML = '';
+                        activeGame = null;
+                        document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+                        return;
                     }
-                };
+                    container.classList.remove('open');
+                    container.innerHTML = '';
+                    document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
 
-                const api = apis[service];
-                if (!api) return { error: 'Service not supported yet.' };
+                    activeGame = key;
+                    btn.classList.add('active');
 
-                try {
-                    let response;
-                    if (api.method === 'GET') {
-                        const params = new URLSearchParams(api.params);
-                        response = await fetch(api.url + '?' + params.toString());
-                    } else {
-                        response = await fetch(api.url, {
-                            method: api.method,
-                            headers: api.headers || {},
-                            body: JSON.stringify(api.body || {})
-                        });
-                    }
+                    const servers = data[key].servers;
+                    servers.forEach(s => {
+                        const parts = s.split(': ');
+                        const name = parts[0];
+                        const link = parts[1];
 
-                    const data = await response.text();
-
-                    // Parse response
-                    let shortUrl = null;
-                    if (service === 'is.gd' || service === 'v.gd') {
-                        try {
-                            const json = JSON.parse(data);
-                            shortUrl = json.shorturl || json.url || null;
-                        } catch (_) {
-                            // Plain text response
-                            if (data.startsWith('http')) shortUrl = data;
-                        }
-                    } else if (service === 'tinyurl') {
-                        if (data.startsWith('http')) shortUrl = data;
-                    } else if (service === 'rebrandly') {
-                        try {
-                            const json = JSON.parse(data);
-                            shortUrl = json.shortUrl ? 'https://' + json.shortUrl : null;
-                        } catch (_) {}
-                    }
-
-                    if (shortUrl) return { shortUrl: shortUrl };
-                    return { error: 'Shortening failed. Please try again.' };
-
-                } catch (_) {
-                    return { error: 'Network error. Please check your internet connection.' };
-                }
-            }
-
-            // ─── HANDLE SHORTEN ────────────────────────────────────────────
-            async function handleShorten() {
-                const url = urlInput.value;
-                const originalText = shortenBtn.innerHTML;
-
-                if (!url || url.trim() === '') {
-                    outputText.innerHTML = '<span class="error-message">⚠️ Please enter a URL.</span>';
-                    outputArea.classList.remove('has-result');
-                    return;
-                }
-
-                shortenBtn.disabled = true;
-                shortenBtn.innerHTML = '<span class="loading-spinner"></span> Shortening...';
-                outputArea.classList.remove('has-result');
-                outputText.textContent = '⏳ Shortening...';
-
-                const result = await shortenUrl(url, selectedService);
-
-                if (result.error) {
-                    outputText.innerHTML = '<span class="error-message">⚠️ ' + result.error + '</span>';
-                    shortenBtn.innerHTML = originalText;
-                    shortenBtn.disabled = false;
-                    return;
-                }
-
-                outputText.innerHTML = '<a href="' + result.shortUrl + '" target="_blank" class="link-preview">' + result
-                    .shortUrl + '</a>';
-                outputArea.classList.add('has-result');
-
-                shortenBtn.innerHTML = originalText;
-                shortenBtn.disabled = false;
-            }
-
-            shortenBtn.addEventListener('click', handleShorten);
-            urlInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') handleShorten();
-            });
-
-            // ─── COPY ──────────────────────────────────────────────────────
-            copyBtn.addEventListener('click', function() {
-                const link = outputText.querySelector('a');
-                if (link) {
-                    navigator.clipboard.writeText(link.href).then(function() {
-                        const original = copyBtn.innerHTML;
-                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                        setTimeout(() => copyBtn.innerHTML = original, 2000);
-                    }).catch(function() {
-                        const range = document.createRange();
-                        range.selectNode(link);
-                        window.getSelection().removeAllRanges();
-                        window.getSelection().addRange(range);
-                        document.execCommand('copy');
-                        window.getSelection().removeAllRanges();
-                        const original = copyBtn.innerHTML;
-                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                        setTimeout(() => copyBtn.innerHTML = original, 2000);
+                        const a = document.createElement('a');
+                        a.className = 'server-link';
+                        a.href = link;
+                        a.target = '_blank';
+                        a.innerHTML = `
+                            <span class="emoji">🔹</span>
+                            <span class="name">${name}</span>
+                            <span class="badge">Invite</span>
+                            <span class="join">→</span>
+                        `;
+                        container.appendChild(a);
                     });
-                }
+
+                    container.classList.add('open');
+                });
+
+                grid.appendChild(btn);
             });
 
-            console.log('%c⚡ VANTA Link Hider', 'font-size:20px; font-weight:bold; color:#8b5cf6;');
-            console.log('%cProfessional URL Shortening Service', 'font-size:12px; color:#a78bfa;');
+            // Auto-open first game
+            const firstKey = Object.keys(data)[0];
+            const firstBtn = document.querySelector(`.game-btn[data-game="${firstKey}"]`);
+            if (firstBtn) firstBtn.click();
 
+            console.log('%c⚡ VANTA Servers', 'font-size:20px; font-weight:bold; color:#8b5cf6;');
         })();
     </script>
 
